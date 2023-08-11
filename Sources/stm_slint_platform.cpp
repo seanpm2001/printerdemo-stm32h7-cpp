@@ -69,23 +69,33 @@ struct StmSlintPlatform : public slint::platform::Platform {
       slint::platform::update_timers_and_animations();
 
       if (m_window) {
-        TS_State_t TS_State;
+        TS_State_t TS_State{};
         BSP_TS_GetState(0, &TS_State);
         if (TS_State.TouchDetected) {
           last_touch_x = TS_State.TouchX;
           last_touch_y = TS_State.TouchY;
+          buffer2[last_touch_x + last_touch_y * size.width].b = 0x1f;
+          buffer2[last_touch_x + last_touch_y * size.width].r = 0;
+
           m_window->window().dispatch_pointer_move_event(slint::LogicalPosition(
               {float(last_touch_x), float(last_touch_y)}));
           if (!touch_down) {
+            BSP_LED_On(1);
             m_window->window().dispatch_pointer_press_event(
                 slint::LogicalPosition(
                     {float(last_touch_x), float(last_touch_y)}),
                 slint::PointerEventButton::Left);
+          } else {
+            BSP_LED_Off(1);
           }
           touch_down = true;
           BSP_LED_On(0);
         } else if (touch_down) {
-          BSP_LED_On(1);
+          BSP_LED_Off(0);
+
+          buffer2[last_touch_x + last_touch_y * size.width].b = 0x0f;
+          buffer2[last_touch_x + last_touch_y * size.width].g = 0x1f;
+
           m_window->window().dispatch_pointer_release_event(
               slint::LogicalPosition(
                   {float(last_touch_x), float(last_touch_y)}),
