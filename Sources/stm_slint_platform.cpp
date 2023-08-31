@@ -19,22 +19,15 @@ struct StmWindowAdapter : public slint::platform::WindowAdapter {
   slint::platform::SoftwareRenderer m_renderer{
       slint::platform::SoftwareRenderer::RepaintBufferType::SwappedBuffers};
   bool needs_redraw = true;
-  const slint::PhysicalSize size;
+  const slint::PhysicalSize m_size;
 
-  explicit StmWindowAdapter(slint::PhysicalSize size) : size(size) {}
+  explicit StmWindowAdapter(slint::PhysicalSize size) : m_size(size) {}
 
   slint::platform::AbstractRenderer &renderer() override { return m_renderer; }
 
-  slint::PhysicalSize physical_size() const override { return size; }
+  slint::PhysicalSize size() override { return m_size; }
 
   void request_redraw() override { needs_redraw = true; }
-
-  void set_visible(bool v) override {
-    if (v) {
-      window().dispatch_resize_event(
-          slint::LogicalSize({float(size.width), float(size.height)}));
-    }
-  }
 };
 
 struct StmSlintPlatform : public slint::platform::Platform {
@@ -55,7 +48,7 @@ struct StmSlintPlatform : public slint::platform::Platform {
     return w;
   }
 
-  std::chrono::milliseconds duration_since_start() const override {
+  std::chrono::milliseconds duration_since_start() override {
     return std::chrono::milliseconds(HAL_GetTick());
   }
 
@@ -105,7 +98,7 @@ struct StmSlintPlatform : public slint::platform::Platform {
         }
 
         if (std::exchange(m_window->needs_redraw, false)) {
-          m_window->m_renderer.render(buffer1, m_window->size.width);
+          m_window->m_renderer.render(buffer1, m_window->m_size.width);
 
           BSP_LCD_LayerConfig_t config;
           config.X0 = 0;
