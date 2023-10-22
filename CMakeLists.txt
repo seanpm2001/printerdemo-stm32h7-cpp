@@ -42,9 +42,8 @@ set (MFLOAT_ABI               "")
 set (RUNTIME_LIBRARY          "--specs=nano.specs")
 set (RUNTIME_LIBRARY_SYSCALLS "--specs=nosys.specs")
 
-# set(STM32Cube_PATH /home/olivier/STM32CubeH7)
-set(STM32Cube_PATH /Users/niallcooling/STM32Cube/Repository/STM32Cube_FW_H7_V1.11.1)
-
+# set(STM32Cube_PATH $ENV{HOME}/STM32Cube/Repository/STM32Cube_FW_H7_V1.11.1)
+set(STM32Cube_PATH ${CMAKE_SOURCE_DIR}/Drivers/STM32CubeH7)
 
 
 set (PROJECT_SOURCES
