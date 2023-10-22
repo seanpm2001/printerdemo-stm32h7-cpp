@@ -4,10 +4,10 @@
 #
 # usage: Edit "VARIABLES"-section to suit project requirements.
 #        For debug build:
-#          cmake -DCMAKE_TOOLCHAIN_FILE=cubeide-gcc.cmake  -S ./ -B Debug -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug
+#          cmake -DCMAKE_TOOLCHAIN_FILE=cubeide-gcc.cmake  -S ./ -B Debug -DCMAKE_BUILD_TYPE=Debug
 #          make -C Debug VERBOSE=1
 #        For release build:
-#          cmake -DCMAKE_TOOLCHAIN_FILE=cubeide-gcc.cmake  -S ./ -B Release -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+#          cmake -DCMAKE_TOOLCHAIN_FILE=cubeide-gcc.cmake  -S ./ -B Release -DCMAKE_BUILD_TYPE=Release
 #          make -C Release VERBOSE=1
 #############################################################################################################################
 cmake_minimum_required(VERSION 3.20)
@@ -42,7 +42,8 @@ set (MFLOAT_ABI               "")
 set (RUNTIME_LIBRARY          "--specs=nano.specs")
 set (RUNTIME_LIBRARY_SYSCALLS "--specs=nosys.specs")
 
-set(STM32Cube_PATH /home/olivier/STM32CubeH7)
+# set(STM32Cube_PATH /home/olivier/STM32CubeH7)
+set(STM32Cube_PATH /Users/niallcooling/STM32Cube/Repository/STM32Cube_FW_H7_V1.11.1)
 
 
 
