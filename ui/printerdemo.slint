@@ -40,8 +40,9 @@ component SideBarIcon inherits Rectangle {
 export component MainWindow inherits Window {
     callback quit();
 
-    width: 320px;
-    height: 240px;
+    // Match w/h of STM32H735-DK
+    width: 480px;
+    height: 272px;
     title: "Slint printer demo";
     background: DemoPalette.main-background;
     default-font-family: "Noto Sans";
