@@ -45,7 +45,7 @@
  * @param  None
  * @retval None
  */
-void SystemClock_Config(void) {
+static void SystemClock_Config(void) {
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   HAL_StatusTypeDef ret = HAL_OK;
@@ -110,7 +110,7 @@ void SystemClock_Config(void) {
  * @param  None
  * @retval None
  */
-void MPU_Config(void) {
+static void MPU_Config(void) {
   MPU_Region_InitTypeDef MPU_InitStruct;
 
   /* Disable the MPU */
@@ -150,38 +150,12 @@ void MPU_Config(void) {
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 }
 
-uint32_t InitTouchScreen(void) {
-  uint32_t ret = 0;
-  uint32_t x_size, y_size;
-
-  BSP_LCD_GetXSize(0, &x_size);
-  BSP_LCD_GetYSize(0, &y_size);
-
-  TS_Init_t hTS;
-  hTS.Width = x_size;
-  hTS.Height = y_size;
-  hTS.Orientation = TS_SWAP_XY;
-  hTS.Accuracy = 0;
-  /* Touchscreen initialization */
-  if (BSP_TS_Init(0, &hTS) != BSP_ERROR_NONE) {
-    ret = 1;
-  }
-
-  return ret;
-}
-
-void run_printer(void);
-
-void init_slint(unsigned int lcd_layer_0_address,
-                unsigned int lcd_layer_1_address, unsigned int width,
-                unsigned int height);
-
 /**
  * @brief  CPU L1-Cache enable.
  * @param  None
  * @retval None
  */
-void CPU_CACHE_Enable(void) {
+static void CPU_CACHE_Enable(void) {
   /* Enable I-Cache */
   SCB_EnableICache();
 
@@ -195,7 +169,7 @@ void bsp_init(void) {
 
   /* Configure the MPU attributes as Write Through for external HYPERRAM*/
   MPU_Config();
-  
+
   /* Enable the CPU Cache */
   CPU_CACHE_Enable();
   /* STM32H7xx HAL library initialization:
@@ -235,9 +209,27 @@ void bsp_init(void) {
     }
   }
 
-  InitTouchScreen();
+}
 
 
+uint32_t InitTouchScreen(void) {
+  uint32_t ret = 0;
+  uint32_t x_size, y_size;
+
+  BSP_LCD_GetXSize(0, &x_size);
+  BSP_LCD_GetYSize(0, &y_size);
+
+  TS_Init_t hTS;
+  hTS.Width = x_size;
+  hTS.Height = y_size;
+  hTS.Orientation = TS_SWAP_XY;
+  hTS.Accuracy = 0;
+  /* Touchscreen initialization */
+  if (BSP_TS_Init(0, &hTS) != BSP_ERROR_NONE) {
+    ret = 1;
+  }
+
+  return ret;
 }
 
 void SysTick_Handler(void) { HAL_IncTick(); }

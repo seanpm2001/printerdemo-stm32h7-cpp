@@ -1,13 +1,16 @@
 #ifndef BSP_INIT_H_
 #define BSP_INIT_H_
 
-#if __CPLUSPLUS
+#include <stdint.h>
+
+#if __cplusplus
 extern "C" {
 #endif
 
 void bsp_init(void);
+uint32_t InitTouchScreen(void);
 
-#if __CPLUSPLUS
+#if __cplusplus
 }
 #endif
 
