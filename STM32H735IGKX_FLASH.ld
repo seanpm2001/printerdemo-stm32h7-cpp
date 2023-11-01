@@ -171,4 +171,6 @@ SECTIONS
   }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
+  /* removed waring "missing .note.GNU-stack section implies executable stack" */
+  /DISCARD/ : { *(.note.GNU-stack) }
 }

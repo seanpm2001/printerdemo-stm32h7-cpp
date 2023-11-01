@@ -48,12 +48,13 @@ set(STM32Cube_PATH ${CMAKE_SOURCE_DIR}/Drivers/STM32CubeH7)
 
 set (PROJECT_SOURCES
 	# LIST SOURCE FILES HERE
-	Sources/main.c
-	Sources/syscalls.c
-	Sources/sysmem.c
+	${CMAKE_SOURCE_DIR}/Sources/main.cpp
+  ${CMAKE_SOURCE_DIR}/Sources/printer.cpp
 
-	Sources/printer.cpp
-  Sources/stm_slint_platform.cpp
+	${CMAKE_SOURCE_DIR}/Platform/syscalls.c
+	${CMAKE_SOURCE_DIR}/Platform/sysmem.c
+  ${CMAKE_SOURCE_DIR}/Platform/stm_slint_platform.cpp
+  ${CMAKE_SOURCE_DIR}/Platform/bsp_init.c
 
   ${STM32Cube_PATH}/Drivers/BSP/STM32H735G-DK/stm32h735g_discovery.c
   ${STM32Cube_PATH}/Drivers/BSP/STM32H735G-DK/stm32h735g_discovery_lcd.c
@@ -94,7 +95,10 @@ set (PROJECT_DEFINES
 
 set (PROJECT_INCLUDES
 	# LIST INCLUDE DIRECTORIES HERE
-  Sources
+  ${CMAKE_SOURCE_DIR}/Sources
+  ${CMAKE_SOURCE_DIR}/Configuration/
+  ${CMAKE_SOURCE_DIR}/Platform/
+  
   ${STM32Cube_PATH}/Drivers/STM32H7xx_HAL_Driver/Inc/
   ${STM32Cube_PATH}/Drivers/CMSIS/Device/ST/STM32H7xx/Include/
   ${STM32Cube_PATH}/Drivers/CMSIS/Include

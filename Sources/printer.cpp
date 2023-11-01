@@ -19,7 +19,7 @@ struct InkLevelModel : slint::Model<InkLevel> {
       {slint::Color::from_rgb_uint8(0, 0, 0), 0.1}};
 };
 
-extern "C" void run_printer(void) {
+void run_printer() {
 
   auto printer_demo = MainWindow::create();
   printer_demo->set_ink_levels(std::make_shared<InkLevelModel>());

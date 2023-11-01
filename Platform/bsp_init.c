@@ -45,7 +45,7 @@
  * @param  None
  * @retval None
  */
-static void SystemClock_Config(void) {
+void SystemClock_Config(void) {
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   HAL_StatusTypeDef ret = HAL_OK;
@@ -110,7 +110,7 @@ static void SystemClock_Config(void) {
  * @param  None
  * @retval None
  */
-static void MPU_Config(void) {
+void MPU_Config(void) {
   MPU_Region_InitTypeDef MPU_InitStruct;
 
   /* Disable the MPU */
@@ -181,7 +181,7 @@ void init_slint(unsigned int lcd_layer_0_address,
  * @param  None
  * @retval None
  */
-static void CPU_CACHE_Enable(void) {
+void CPU_CACHE_Enable(void) {
   /* Enable I-Cache */
   SCB_EnableICache();
 
@@ -189,13 +189,13 @@ static void CPU_CACHE_Enable(void) {
   SCB_EnableDCache();
 }
 
-int main(void) {
+void bsp_init(void) {
 
   uint32_t lcd_width, lcd_height, i, j;
 
   /* Configure the MPU attributes as Write Through for external HYPERRAM*/
   MPU_Config();
-
+  
   /* Enable the CPU Cache */
   CPU_CACHE_Enable();
   /* STM32H7xx HAL library initialization:
@@ -237,64 +237,7 @@ int main(void) {
 
   InitTouchScreen();
 
-  init_slint(LCD_LAYER_0_ADDRESS, LCD_LAYER_1_ADDRESS, LCD_DEFAULT_WIDTH,
-             LCD_DEFAULT_HEIGHT);
-  BSP_LED_On(LED1);
-  run_printer();
-  BSP_LED_On(LED2);
 
-  ///*##-2- DMA2D configuration
-  /// ################################################*/
-  // LL_AHB3_GRP1_EnableClock(LL_AHB3_GRP1_PERIPH_DMA2D);
-  // NVIC_SetPriority(DMA2D_IRQn, 0);
-  // NVIC_EnableIRQ(DMA2D_IRQn);
-  //
-  // DMA2D_Config();
-  //
-  ///*##-3- Start DMA2D transfer
-  /// ###############################################*/
-  // LL_DMA2D_FGND_SetMemAddr(
-  //     DMA2D, (uint32_t)&RGB565_240x160); /* Source buffer in format RGB565
-  //     and
-  //                                           size 240x160                 */
-  // LL_DMA2D_SetOutputMemAddr(
-  //     DMA2D, (uint32_t)LCD_LAYER_0_ADDRESS); /* LCD data address */
-  //
-  // LL_DMA2D_ConfigSize(DMA2D, LAYER_SIZE_Y,
-  //                    LAYER_SIZE_X); /* Configure DMA2D transfer number of
-  //                    lines
-  //                                      and number of pixels per line */
-  // LL_DMA2D_SetLineOffset(
-  //    DMA2D,
-  //    lcd_width - LAYER_SIZE_X); /* Configure DMA2D output line offset to LCD
-  //                                  width - image width for display */
-  //
-  ///* Enable the transfer complete, transfer error and configuration error
-  // * interrupts */
-  // LL_DMA2D_EnableIT_TC(DMA2D);
-  // LL_DMA2D_EnableIT_TE(DMA2D);
-  // LL_DMA2D_EnableIT_CE(DMA2D);
-  //
-  ///* Enable the Peripheral */
-  // LL_DMA2D_Start(DMA2D);
-  //
-  ///*##-4- Wait until DMA2D transfer is over
-  // * ################################################*/
-  // while ((blended_image_ready == 0) && (dma2d_error_status == 0)) {
-  //  ;
-  //}
-  //
-  // if (dma2d_error_status != 0) {
-  //  /* Call Error function */
-  //  OnError_Handler(1);
-  //} else {
-  //  /* Turn LED1 On */
-  //  BSP_LED_On(LED1);
-  //}
-
-  while (1) {
-    ;
-  }
 }
 
 void SysTick_Handler(void) { HAL_IncTick(); }

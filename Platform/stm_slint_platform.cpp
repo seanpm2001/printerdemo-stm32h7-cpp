@@ -116,7 +116,7 @@ struct StmSlintPlatform : public slint::platform::Platform {
   }
 };
 
-extern "C" void init_slint(unsigned int lcd_layer_0_address,
+void init_slint(unsigned int lcd_layer_0_address,
                            unsigned int lcd_layer_1_address, unsigned int width,
                            unsigned int height) {
   auto a = width * height;
